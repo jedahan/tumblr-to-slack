@@ -9,7 +9,10 @@ router.post('/random', body, function *() {
   const tumblrUrl = `http://api.tumblr.com/v2/blog/monogifs.tumblr.com/posts/photo?api_key=${process.env.TUMBLR_API_KEY}&limit=4&offset=${Math.floor(Math.random() * 10)}`
   let [_, body] = yield request(tumblrUrl)
   const url = JSON.parse(body).response.posts[0].photos[0].alt_sizes[2].url
-  this.body = url
+  this.body = JSON.stringify({
+    'response_type': 'in_channel',
+    'text': url,
+  })
 })
 
 const app = koa()
